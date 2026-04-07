@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Todo_api_backend.Interfaces.Services;
-using Todo_api_backend.Models;
 using Todo_api_backend.DTOs;
 using Todo_api_backend.DTOs.Category;
+using Todo_api_backend.Interfaces.Services;
 
 namespace Todo_api_backend.Controllers
 {

@@ -1,10 +1,11 @@
-﻿using Todo_api_backend.Models;
+﻿using Todo_api_backend.DTOs.TodoTask;
+using Todo_api_backend.Models;
 
 namespace Todo_api_backend.Interfaces.Services
 {
     public interface ITodoTaskService
     {
-        public Task<TodoTask?> GetOneByID(Guid id);
+        public Task<TodoTaskResponseDTO?> GetOneByID(Guid id);
 
         public Task<List<TodoTask>> GetAllAsync();
 
