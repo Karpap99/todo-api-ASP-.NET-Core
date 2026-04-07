@@ -15,6 +15,8 @@ namespace Todo_api_backend.Interfaces.Repositories
 
         public Task<Category> Update(Category category);
 
+        public Task<int> GetTotalCountAsync();
+
         public Task Delete(Guid id);
     }
 }

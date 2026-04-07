@@ -22,9 +22,11 @@ namespace Todo_api_backend.Data.Repositories
 
         public async Task<List<Category>> GetAllAsync(PaginationParams paginationParams)
         {
-            var position = paginationParams.Page * paginationParams.Limit;
+            var position = (paginationParams.Page - 1) * paginationParams.Limit;
             return await _db.Categories.OrderBy(b => b.Id).Skip(position).Take(paginationParams.Limit).ToListAsync();
         }
+
+        public async Task<int> GetTotalCountAsync() => await _db.Categories.CountAsync();
 
         public async Task<Category> Add(Category category)
         {

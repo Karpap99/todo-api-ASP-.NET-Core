@@ -138,6 +138,35 @@
             "description": "OK"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Category"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/Category/{id}": {
@@ -157,46 +186,6 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Category"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Category"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -276,30 +265,6 @@
         },
         "additionalProperties": false
       },
-      "Category": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "taskCategories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoTaskCategory"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "CreateCategoryDTO": {
         "required": [
           "name"
@@ -314,96 +279,15 @@
         },
         "additionalProperties": false
       },
-      "TodoTask": {
-        "required": [
-          "title"
-        ],
+      "UpdateCategoryDTO": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "title": {
+          "name": {
             "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "authorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "author": {
-            "$ref": "#/components/schemas/User"
-          },
-          "isCompleted": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "taskCategories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoTaskCategory"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TodoTaskCategory": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "taskId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "task": {
-            "$ref": "#/components/schemas/TodoTask"
-          },
-          "categoryId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          }
-        },
-        "additionalProperties": false
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "passwordHash": {
-            "type": "string",
-            "nullable": true
-          },
-          "tasks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoTask"
-            },
             "nullable": true
           }
         },

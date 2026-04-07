@@ -132,3 +132,4 @@ C:\Users\karpi\source\repos\Todo api backend\Todo api backend\bin\Debug\net10.0\
 C:\Users\karpi\source\repos\Todo api backend\Todo api backend\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\karpi\source\repos\Todo api backend\Todo api backend\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\karpi\source\repos\Todo api backend\Todo api backend\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+C:\Users\karpi\source\repos\Todo api backend\Todo api backend\obj\Debug\net10.0\Todo api backend.sourcelink.json

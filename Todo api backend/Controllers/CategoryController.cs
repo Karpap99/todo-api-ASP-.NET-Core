@@ -20,8 +20,7 @@ namespace Todo_api_backend.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int page = 1, [FromQuery] int limit = 10)
         {
-            var pagination = new PaginationParams { Page = page, Limit = limit };
-            var list = await _service.GetAllAsync(pagination);
+            var list = await _service.GetAllAsync(new PaginationParams { Page = page, Limit = limit });
             return Ok(list);
         }
 
@@ -38,8 +37,8 @@ namespace Todo_api_backend.Controllers
         {
             try
             {
-                var created = await _service.Add(categoryDTO);
-                return CreatedAtRoute("GetCategoryById", new { id = created.Id }, created);
+                var response = await _service.Add(categoryDTO);
+                return CreatedAtRoute("GetCategoryById", new { response });
             }
             catch (Exception ex)
             {
@@ -47,17 +46,10 @@ namespace Todo_api_backend.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Category category)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateCategoryDTO updateCategoryDTO)
         {
-            if (id != category.Id) return BadRequest(new { error = "Id mismatch" });
-
-            var existing = await _service.GetOneByID(id);
-            if (existing == null) return NotFound();
-
-            existing.Name = category.Name;
-
-            var updated = await _service.Update(existing);
+            var updated = await _service.Update(updateCategoryDTO);
             return Ok(updated);
         }
 

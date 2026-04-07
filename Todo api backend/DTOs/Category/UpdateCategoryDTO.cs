@@ -1,6 +1,6 @@
 ﻿namespace Todo_api_backend.DTOs.Category
 {
-    public class CategoryResponseDTO
+    public class UpdateCategoryDTO
     {
         public Guid Id { get; set; }
 
