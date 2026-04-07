@@ -1,0 +1,74 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Todo_api_backend.Interfaces.Services;
+using Todo_api_backend.Models;
+using Todo_api_backend.DTOs;
+using Todo_api_backend.DTOs.Category;
+
+namespace Todo_api_backend.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class CategoryController : ControllerBase
+    {
+        private readonly ICategoryService _service;
+
+        public CategoryController(ICategoryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] int page = 1, [FromQuery] int limit = 10)
+        {
+            var pagination = new PaginationParams { Page = page, Limit = limit };
+            var list = await _service.GetAllAsync(pagination);
+            return Ok(list);
+        }
+
+        [HttpGet("{id}", Name = "GetCategoryById")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var category = await _service.GetOneByID(id);
+            if (category == null) return NotFound();
+            return Ok(category);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] CreateCategoryDTO categoryDTO)
+        {
+            try
+            {
+                var created = await _service.Add(categoryDTO);
+                return CreatedAtRoute("GetCategoryById", new { id = created.Id }, created);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] Category category)
+        {
+            if (id != category.Id) return BadRequest(new { error = "Id mismatch" });
+
+            var existing = await _service.GetOneByID(id);
+            if (existing == null) return NotFound();
+
+            existing.Name = category.Name;
+
+            var updated = await _service.Update(existing);
+            return Ok(updated);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var existing = await _service.GetOneByID(id);
+            if (existing == null) return NotFound();
+
+            await _service.Delete(id);
+            return NoContent();
+        }
+    }
+}
