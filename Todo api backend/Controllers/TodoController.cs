@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Todo_api_backend.DTOs;
-using Todo_api_backend.DTOs.TodoTask;
+using Todo_api_backend.DTOs.TodoDtos;
 using Todo_api_backend.Interfaces.Services;
 
 namespace Todo_api_backend.Controllers
@@ -28,7 +28,7 @@ namespace Todo_api_backend.Controllers
 
             var pagination = new PaginationParams { Page = page, Limit = limit };
 
-            var response = await _service.GetAllAsync(userGuid, pagination);
+            var response = await _service.GetPaginatedAsync(pagination, userGuid);
 
             return Ok(new { response });
         }
@@ -47,21 +47,21 @@ namespace Todo_api_backend.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateTask([FromBody] CreateTodoDTO createTodoTaskDTO)
+        public async Task<IActionResult> CreateTask([FromBody] CreateTodoDTO createTodoDTO)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             if (Guid.TryParse( userId?.Value, out Guid userGuid) == false) return BadRequest();
-            var response = await _service.Add(createTodoTaskDTO, userGuid);
+            var response = await _service.AddAsync(createTodoDTO, userGuid);
             return CreatedAtAction(null, new { response }); ;
         }
 
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> UpdateTask([FromBody] UpdateTodoDTO updateTodoTaskDTO)
+        public async Task<IActionResult> UpdateTask([FromBody] UpdateTodoDTO updateTodoDTO)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             if (Guid.TryParse(userId?.Value, out Guid userGuid) == false) return BadRequest();
-            var response = await _service.Update(updateTodoTaskDTO, userGuid);
+            var response = await _service.UpdateAsync(updateTodoDTO, userGuid);
             return CreatedAtAction(null, new { response }); ;
         }
 
@@ -71,7 +71,7 @@ namespace Todo_api_backend.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             if (Guid.TryParse(userId?.Value, out Guid userGuid) == false) return BadRequest();
-            await _service.Delete(id, userGuid);
+            await _service.DeleteAsync(id, userGuid);
             return Ok("deleted");
         }
     }

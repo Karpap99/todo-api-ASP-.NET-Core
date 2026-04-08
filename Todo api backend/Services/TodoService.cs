@@ -1,5 +1,5 @@
 ﻿using Todo_api_backend.DTOs;
-using Todo_api_backend.DTOs.TodoTask;
+using Todo_api_backend.DTOs.TodoDtos;
 using Todo_api_backend.Interfaces.Repositories;
 using Todo_api_backend.Interfaces.Services;
 using Todo_api_backend.Models;
@@ -14,47 +14,67 @@ namespace Todo_api_backend.Services
             _repo = repo;
         }
 
-        public async Task<TodoResponseDTO?> GetOneByID(Guid id, Guid userGuid) {
-            var task = await _repo.GetOneByID(id);
-            if (task == null) return null;
+        public async Task<TodoResponseDTO?> GetOneByID(Guid id, Guid userId) {
+            var todo = await _repo.GetOneByID(id);
+            if (todo == null) return null;
 
-            return new TodoResponseDTO(null);
+            return new TodoResponseDTO(todo);
         }
 
-        public async Task<PaginatedResponse<TodoResponseDTO>> GetAllAsync(Guid userGuid, PaginationParams pagination) {
-            var tasks = await _repo.GetAllAsync();
+
+        public async Task<List<TodoResponseDTO>> GetAllAsync(Guid userId) {
+            var todos = await _repo.GetAllAsync();
+            return todos.Select(todo => new TodoResponseDTO(todo)).ToList(); 
+        }
+
+
+        public async Task<PaginatedResponse<TodoResponseDTO>> GetPaginatedAsync(PaginationParams pagination, Guid userId) {
+            var total = await _repo.GetTotalCountAsync();
+            var pages = (int)Math.Ceiling((double)total / pagination.Limit);
+
+            if (pages > 0 && pagination.Page <= pages) {
+                var todos = await _repo.GetPaginatedAsync(pagination, x => x.Id);
+                return new PaginatedResponse<TodoResponseDTO>
+                {
+                    Items = todos.Select(todo => new TodoResponseDTO(todo)).ToList(),
+                    TotalItems = total,
+                    TotalPages = pages
+                };
+            }
+
             return new PaginatedResponse<TodoResponseDTO>
             {
-                Items = tasks.Select(task => new TodoResponseDTO(task)).ToList(),
-                TotalItems = tasks.Count,
-                TotalPages = tasks.Count
+                Items = new List<TodoResponseDTO>(),
+                TotalItems = total,
+                TotalPages = pages
+            };
 
-            }; 
-        } 
-        public async Task<TodoResponseDTO?> GetByName(string name, Guid userGuid) {
-            var task = await _repo.GetByName(name);
-            if (task == null) return null;
-
-            return new TodoResponseDTO(task);
         }
 
-        public async Task<TodoResponseDTO?> Add(CreateTodoDTO createTodoTaskDTO, Guid userGuid) {
+        public async Task<TodoResponseDTO?> GetByNameAsync(string name, Guid userGuid) {
+            var todo = await _repo.GetByName(name);
+            if (todo == null) return null;
 
-            var task = new Todo
+            return new TodoResponseDTO(todo);
+        }
+
+        public async Task<TodoResponseDTO?> AddAsync(CreateTodoDTO createTodoTaskDTO, Guid userId) {
+
+            var todo = new Todo
             {
                 Title = createTodoTaskDTO.Title,
                 Description = createTodoTaskDTO.Description,
                 IsCompleted = false,
-                AuthorId = userGuid,
+                AuthorId = userId,
             };
 
-            var result = await _repo.AddAsync(task);
+            var result = await _repo.AddAsync(todo);
 
             return new TodoResponseDTO(result);
         }
 
-        public async Task<TodoResponseDTO?> Update(UpdateTodoDTO updateTodoTaskDTO, Guid userGuid) => null;
+        public async Task<TodoResponseDTO?> UpdateAsync(UpdateTodoDTO updateTodoTaskDTO, Guid userId) => null;
 
-        public async Task Delete(Guid id, Guid userGuid) => await _repo.DeleteAsync(id);
+        public async Task DeleteAsync(Guid id, Guid userId) => await _repo.DeleteAsync(id);
     }
 }

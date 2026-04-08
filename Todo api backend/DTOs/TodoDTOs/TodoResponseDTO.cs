@@ -1,6 +1,6 @@
 ﻿using Todo_api_backend.Models;
 
-namespace Todo_api_backend.DTOs.TodoTask
+namespace Todo_api_backend.DTOs.TodoDtos
 {
     public class TodoResponseDTO : BaseResponseEntityDTO
     {

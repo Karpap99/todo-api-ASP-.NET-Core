@@ -19,7 +19,7 @@ namespace Todo_api_backend.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int page = 1, [FromQuery] int limit = 10)
         {
-            var list = await _service.GetAllAsync(new PaginationParams { Page = page, Limit = limit });
+            var list = await _service.GetPaginatedAsync(new PaginationParams { Page = page, Limit = limit });
             return Ok(list);
         }
 
@@ -36,7 +36,7 @@ namespace Todo_api_backend.Controllers
         {
             try
             {
-                var response = await _service.Add(categoryDTO);
+                var response = await _service.AddAsync(categoryDTO);
                 return CreatedAtRoute("GetCategoryById", new { response });
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace Todo_api_backend.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateCategoryDTO updateCategoryDTO)
         {
-            var updated = await _service.Update(updateCategoryDTO);
+            var updated = await _service.UpdateAsync(updateCategoryDTO);
             return Ok(updated);
         }
 
@@ -58,7 +58,7 @@ namespace Todo_api_backend.Controllers
             var existing = await _service.GetOneByID(id);
             if (existing == null) return NotFound();
 
-            await _service.Delete(id);
+            await _service.DeleteAsync(id);
             return NoContent();
         }
     }

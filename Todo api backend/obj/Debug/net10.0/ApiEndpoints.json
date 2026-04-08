@@ -157,8 +157,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createTodoTaskDTO",
-        "Type": "Todo_api_backend.DTOs.TodoTask.CreateTodoDTO",
+        "Name": "createTodoDTO",
+        "Type": "Todo_api_backend.DTOs.TodoDtos.CreateTodoDTO",
         "IsRequired": true
       }
     ],
@@ -173,8 +173,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "updateTodoTaskDTO",
-        "Type": "Todo_api_backend.DTOs.TodoTask.UpdateTodoDTO",
+        "Name": "updateTodoDTO",
+        "Type": "Todo_api_backend.DTOs.TodoDtos.UpdateTodoDTO",
         "IsRequired": true
       }
     ],

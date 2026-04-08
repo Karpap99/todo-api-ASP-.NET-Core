@@ -1,20 +1,10 @@
 ﻿using Todo_api_backend.DTOs;
 using Todo_api_backend.DTOs.Category;
-using Todo_api_backend.Models;
 
 namespace Todo_api_backend.Interfaces.Services
 {
-    public interface ICategoryService
+    public interface ICategoryService: IBaseService<CategoryResponseDTO, CreateCategoryDTO, UpdateCategoryDTO>
     {
-        public Task<CategoryResponseDTO?> GetOneByID(Guid id);
-
-        public Task<PaginatedResponse<CategoryResponseDTO>> GetAllAsync(PaginationParams pagination);
-
         public Task<CategoryResponseDTO?> GetByName(string name);
-
-        public Task<CategoryResponseDTO> Add(CreateCategoryDTO createCategoryDTO);
-
-        public Task<CategoryResponseDTO> Update(UpdateCategoryDTO updateCategoryDTO);
-        public Task Delete(Guid id);
     }
 }

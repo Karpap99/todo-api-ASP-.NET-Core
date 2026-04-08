@@ -20,7 +20,13 @@ namespace Todo_api_backend.Services
             return new CategoryResponseDTO(category);
         }
 
-        public async Task<PaginatedResponse<CategoryResponseDTO>> GetAllAsync(PaginationParams pagination)
+        public async Task<List<CategoryResponseDTO>> GetAllAsync()
+        {
+            var categories = await _db.GetAllAsync();
+            return categories.Select(item => new CategoryResponseDTO(item)).ToList();
+        }
+
+        public async Task<PaginatedResponse<CategoryResponseDTO>> GetPaginatedAsync(PaginationParams pagination)
         {
             var total = await _db.GetTotalCountAsync();
             var pages = (int)Math.Ceiling((double)total / pagination.Limit);
@@ -52,7 +58,7 @@ namespace Todo_api_backend.Services
             return new CategoryResponseDTO(category);
         }
 
-        public async Task<CategoryResponseDTO> Add(CreateCategoryDTO createCategoryDTO)
+        public async Task<CategoryResponseDTO> AddAsync(CreateCategoryDTO createCategoryDTO)
         {
             var categoryDuplicate = await _db.GetByName(createCategoryDTO.Name);
 
@@ -71,7 +77,7 @@ namespace Todo_api_backend.Services
             return new CategoryResponseDTO(result);
         }
 
-        public async Task<CategoryResponseDTO> Update(UpdateCategoryDTO updateCategoryDTO)
+        public async Task<CategoryResponseDTO> UpdateAsync(UpdateCategoryDTO updateCategoryDTO)
         {
             var exists = await _db.GetOneByID(updateCategoryDTO.Id);
 
@@ -88,7 +94,7 @@ namespace Todo_api_backend.Services
             return new CategoryResponseDTO(exists);
         }
 
-        public Task Delete(Guid id)
+        public Task DeleteAsync(Guid id)
         {
             return _db.DeleteAsync(id);
         }
