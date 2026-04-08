@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Todo_api_backend.DTOs;
 using Todo_api_backend.DTOs.TodoTask;
 using Todo_api_backend.Interfaces.Services;
 
@@ -8,21 +9,27 @@ namespace Todo_api_backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TodoTaskController : Controller
+    public class TodoController : Controller
     {
-        private readonly ITodoTaskService _service;
-        public TodoTaskController(ITodoTaskService service)
+        private readonly ITodoService _service;
+        public TodoController(ITodoService service)
         {
             _service = service;
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int limit = 10)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (Guid.TryParse(userId.Value, out Guid userGuid) == false) return BadRequest();
-            var response = await _service.GetAllAsync(userGuid);
+
+            if (Guid.TryParse( userId?.Value, out Guid userGuid) == false) 
+                return BadRequest();
+
+            var pagination = new PaginationParams { Page = page, Limit = limit };
+
+            var response = await _service.GetAllAsync(userGuid, pagination);
+
             return Ok(new { response });
         }
 
@@ -31,27 +38,29 @@ namespace Todo_api_backend.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (Guid.TryParse(userId.Value, out Guid userGuid) == false) return BadRequest();
+            if (Guid.TryParse( userId?.Value, out Guid userGuid) == false ) 
+                return BadRequest();
+
             var response = await _service.GetOneByID(id, userGuid);
             return Ok(new { response });
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateTask([FromBody] CreateTodoTaskDTO createTodoTaskDTO)
+        public async Task<IActionResult> CreateTask([FromBody] CreateTodoDTO createTodoTaskDTO)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (Guid.TryParse(userId.Value, out Guid userGuid) == false) return BadRequest();
+            if (Guid.TryParse( userId?.Value, out Guid userGuid) == false) return BadRequest();
             var response = await _service.Add(createTodoTaskDTO, userGuid);
             return CreatedAtAction(null, new { response }); ;
         }
 
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> UpdateTask([FromBody] UpdateTodoTaskDTO updateTodoTaskDTO)
+        public async Task<IActionResult> UpdateTask([FromBody] UpdateTodoDTO updateTodoTaskDTO)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (Guid.TryParse(userId.Value, out Guid userGuid) == false) return BadRequest();
+            if (Guid.TryParse(userId?.Value, out Guid userGuid) == false) return BadRequest();
             var response = await _service.Update(updateTodoTaskDTO, userGuid);
             return CreatedAtAction(null, new { response }); ;
         }
@@ -61,7 +70,7 @@ namespace Todo_api_backend.Controllers
         public async Task<IActionResult> DeleteTask(Guid id)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (Guid.TryParse(userId.Value, out Guid userGuid) == false) return BadRequest();
+            if (Guid.TryParse(userId?.Value, out Guid userGuid) == false) return BadRequest();
             await _service.Delete(id, userGuid);
             return Ok("deleted");
         }

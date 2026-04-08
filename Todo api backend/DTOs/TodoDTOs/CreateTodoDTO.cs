@@ -2,7 +2,7 @@
 
 namespace Todo_api_backend.DTOs.TodoTask
 {
-    public class CreateTodoTaskDTO
+    public class CreateTodoDTO
     {
         [Required]
         [StringLength(100, MinimumLength = 1)]

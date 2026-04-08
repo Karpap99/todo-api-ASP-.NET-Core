@@ -2,7 +2,7 @@
 
 namespace Todo_api_backend.DTOs.TodoTask
 {
-    public class UpdateTodoTaskDTO
+    public class UpdateTodoDTO
     {
         [Required]
         public Guid Id { get; set; }

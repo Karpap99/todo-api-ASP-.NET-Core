@@ -214,10 +214,30 @@
         }
       }
     },
-    "/TodoTask": {
+    "/Todo": {
       "get": {
         "tags": [
-          "TodoTask"
+          "Todo"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -227,23 +247,23 @@
       },
       "post": {
         "tags": [
-          "TodoTask"
+          "Todo"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoTaskDTO"
+                "$ref": "#/components/schemas/CreateTodoDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoTaskDTO"
+                "$ref": "#/components/schemas/CreateTodoDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoTaskDTO"
+                "$ref": "#/components/schemas/CreateTodoDTO"
               }
             }
           }
@@ -256,23 +276,23 @@
       },
       "put": {
         "tags": [
-          "TodoTask"
+          "Todo"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoTaskDTO"
+                "$ref": "#/components/schemas/UpdateTodoDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoTaskDTO"
+                "$ref": "#/components/schemas/UpdateTodoDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoTaskDTO"
+                "$ref": "#/components/schemas/UpdateTodoDTO"
               }
             }
           }
@@ -284,10 +304,10 @@
         }
       }
     },
-    "/TodoTask/{id}": {
+    "/Todo/{id}": {
       "get": {
         "tags": [
-          "TodoTask"
+          "Todo"
         ],
         "parameters": [
           {
@@ -308,7 +328,7 @@
       },
       "delete": {
         "tags": [
-          "TodoTask"
+          "Todo"
         ],
         "parameters": [
           {
@@ -393,7 +413,7 @@
         },
         "additionalProperties": false
       },
-      "CreateTodoTaskDTO": {
+      "CreateTodoDTO": {
         "required": [
           "description",
           "title"
@@ -426,6 +446,31 @@
           }
         },
         "additionalProperties": false
+      },
+      "UpdateTodoDTO": {
+        "required": [
+          "description",
+          "id",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
       }
     }
   },
@@ -437,7 +482,7 @@
       "name": "Category"
     },
     {
-      "name": "TodoTask"
+      "name": "Todo"
     }
   ]
 }

@@ -1,4 +1,5 @@
-﻿using Todo_api_backend.Models;
+﻿using System.Linq.Expressions;
+using Todo_api_backend.DTOs;
 
 namespace Todo_api_backend.Interfaces.Repositories
 {
@@ -8,12 +9,14 @@ namespace Todo_api_backend.Interfaces.Repositories
 
         public Task<List<T>> GetAllAsync();
 
-        public Task<T?> GetByName(string name);
+        public Task<List<T>> GetPaginatedAsync(PaginationParams pagination, Expression<Func<T, object>> orderBy);
 
-        public Task<T> Add(Category category);
+        public Task<int> GetTotalCountAsync();
 
-        public Task<T> Update(Category category);
+        public Task<T> AddAsync(T item);
 
-        public Task Delete(Guid id);
+        public Task<T> UpdateAsync(T item);
+
+        public Task DeleteAsync(Guid id);
     }
 }

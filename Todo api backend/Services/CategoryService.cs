@@ -17,38 +17,27 @@ namespace Todo_api_backend.Services
         public async Task<CategoryResponseDTO?> GetOneByID(Guid id)
         {
             var category = await _db.GetOneByID(id);
-            return new CategoryResponseDTO
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
+            return new CategoryResponseDTO(category);
         }
 
-        public async Task<CategoryPageResponseDTO> GetAllAsync(PaginationParams pagination)
+        public async Task<PaginatedResponse<CategoryResponseDTO>> GetAllAsync(PaginationParams pagination)
         {
             var total = await _db.GetTotalCountAsync();
             var pages = (int)Math.Ceiling((double)total / pagination.Limit);
 
             if (pages > 0 && pagination.Page <= pages)
             {
-                var categories = await _db.GetAllAsync(pagination);
+                var categories = await _db.GetPaginatedAsync(pagination, x => x.Id);
 
-                return new CategoryPageResponseDTO
+                return new PaginatedResponse<CategoryResponseDTO>
                 {
-                    Categories = categories.Select(item => new CategoryResponseDTO
-                    {
-                        Id = item.Id,
-                        Name = item.Name
-                    }).ToList(),
-                    TotalPages = pages,
-                    TotalItems = total
-
+                    Items = categories.Select(item => new CategoryResponseDTO(item)).ToList(),
                 };
             }
 
-            return new CategoryPageResponseDTO
+            return new PaginatedResponse<CategoryResponseDTO>
             {
-                Categories = new List<CategoryResponseDTO>(),
+                Items = new List<CategoryResponseDTO>(),
                 TotalPages = pages,
                 TotalItems = total
             };
@@ -59,11 +48,8 @@ namespace Todo_api_backend.Services
         public async Task<CategoryResponseDTO?> GetByName(string name)
         {
             var category = await _db.GetByName(name);
-            return new CategoryResponseDTO
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
+
+            return new CategoryResponseDTO(category);
         }
 
         public async Task<CategoryResponseDTO> Add(CreateCategoryDTO createCategoryDTO)
@@ -77,15 +63,12 @@ namespace Todo_api_backend.Services
             var category = new Category
             {
                 Id = Guid.NewGuid(),
-                Name = createCategoryDTO.Name
+                Title = createCategoryDTO.Name
             };
 
-            var result = await _db.Add(category);
+            var result = await _db.AddAsync(category);
 
-            return new CategoryResponseDTO { 
-                Id = category.Id,
-                Name = category.Name,
-            };
+            return new CategoryResponseDTO(result);
         }
 
         public async Task<CategoryResponseDTO> Update(UpdateCategoryDTO updateCategoryDTO)
@@ -96,21 +79,18 @@ namespace Todo_api_backend.Services
                 throw new Exception("Category not found.");
             }
 
-            if (updateCategoryDTO.Name != exists.Name) {
-                exists.Name = updateCategoryDTO.Name;
+            if (updateCategoryDTO.Name != exists.Title) {
+                exists.Title = updateCategoryDTO.Name;
             }
 
-            await _db.Update(exists);
+            await _db.UpdateAsync(exists);
 
-            return new CategoryResponseDTO {
-                Id = exists.Id,
-                Name = exists.Name
-            };
+            return new CategoryResponseDTO(exists);
         }
 
         public Task Delete(Guid id)
         {
-            return _db.Delete(id);
+            return _db.DeleteAsync(id);
         }
     }
 }

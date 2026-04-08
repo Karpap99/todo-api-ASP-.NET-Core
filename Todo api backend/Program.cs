@@ -58,16 +58,16 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 // Repositories di
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ITodoTaskRepository, TodoTaskRepository>();
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ITodoTaskCategoryRepository, TodoTaskCategoryRepository>();
+builder.Services.AddScoped<ITodoCategoryRepository, TodoCategoryRepository>();
 
 // Services di
-builder.Services.AddScoped<ITodoTaskService, TodoTaskService>();
+builder.Services.AddScoped<ITodoService, TodoService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ITodoTaskCategoryService, TodoTaskCategoryService>();
+builder.Services.AddScoped<ITodoCategoryService, TodoCategoryService>();
 
 builder.Services.AddSwaggerGen();
 

@@ -1,9 +1,7 @@
 ﻿namespace Todo_api_backend.Models
 {
-    public class TodoTask
+    public class Todo : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public required string Title { get; set; }
 
         public string Description { get; set; }
@@ -14,10 +12,6 @@
 
         public bool IsCompleted { get; set; }
 
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
-
-        public ICollection<TodoTaskCategory> TaskCategories { get; set; } = new List<TodoTaskCategory>();
+        public ICollection<TodoCategory> TodoCategories { get; set; } = new List<TodoCategory>();
     }
 }

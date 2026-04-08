@@ -4,7 +4,7 @@ namespace Todo_api_backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TodoTaskCategoryController : Controller
+    public class TodoCategoryController : Controller
     {
 
     }

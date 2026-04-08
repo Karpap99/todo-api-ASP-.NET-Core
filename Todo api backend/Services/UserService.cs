@@ -19,10 +19,10 @@ namespace Todo_api_backend.Services
 
         public async Task<User?> GetByEmailAsync(string email) => await _repo.GetByEmailAsync(email);
 
-        public async Task<User> Add(User user) => await _repo.Add(user);
+        public async Task<User> Add(User user) => await _repo.AddAsync(user);
 
-        public async Task<User> Update(User user) => await _repo.Update(user);
+        public async Task<User> Update(User user) => await _repo.UpdateAsync(user);
 
-        public async Task Delete(Guid id) => await _repo.Delete(id);
+        public async Task Delete(Guid id) => await _repo.DeleteAsync(id);
     }
 }

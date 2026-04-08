@@ -3,12 +3,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
 using Todo_api_backend.Config;
-using Todo_api_backend.Data.Repositories;
 using Todo_api_backend.DTOs.Auth;
-using Todo_api_backend.DTOs.User;
+using Todo_api_backend.DTOs.UserDtos;
 using Todo_api_backend.Interfaces.Repositories;
 using Todo_api_backend.Interfaces.Services;
 using Todo_api_backend.Models;
@@ -28,7 +26,7 @@ namespace Todo_api_backend.Services
             _jwtConfig = jwtConfig.Value;
         }
 
-        public async Task<BaseResponseDTO?> LoginAsync(AuthLoginDTO user)
+        public async Task<AuthResponseDTO?> LoginAsync(AuthLoginDTO user)
         {
 
             var _user = await _repository.GetByEmailAsync(user.Email);
@@ -47,43 +45,31 @@ namespace Todo_api_backend.Services
 
             var token = await GetToken(_user);
 
-            var userResponse = new UserResponseDTO
-            {
-                Id = _user.Id,
-                Email = _user.Email,
-            };
+            var userResponse = new UserResponseDTO(_user);
 
-            return new BaseResponseDTO
+            return new AuthResponseDTO
             {
                 Token = token,
                 User = userResponse
             };
         }
 
-        public async Task<BaseResponseDTO> RegisterAsync(AuthRegisterDTO dto)
+        public async Task<AuthResponseDTO> RegisterAsync(AuthRegisterDTO dto)
         {
             var existing = await _repository.GetByEmailAsync(dto.Email);
             if (existing != null) throw new InvalidOperationException("User already exists");
 
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                Email = dto.Email,
-            };
+            var user = new User { Email = dto.Email, };
 
             user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
 
-            var createdUser = await _repository.Add(user);
+            var createdUser = await _repository.AddAsync(user);
 
             var token = await GetToken(createdUser);
 
-            var userResponse = new UserResponseDTO
-            {
-                Id = createdUser.Id,
-                Email = createdUser.Email,
-            };
+            var userResponse = new UserResponseDTO(user);
 
-            return new BaseResponseDTO
+            return new AuthResponseDTO
             {
                 Token = token,
                 User = userResponse,

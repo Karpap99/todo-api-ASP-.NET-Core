@@ -128,51 +128,62 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "GetAll",
-    "RelativePath": "TodoTask",
+    "RelativePath": "Todo",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "CreateTask",
-    "RelativePath": "TodoTask",
+    "RelativePath": "Todo",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "createTodoTaskDTO",
-        "Type": "Todo_api_backend.DTOs.TodoTask.CreateTodoTaskDTO",
+        "Type": "Todo_api_backend.DTOs.TodoTask.CreateTodoDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "UpdateTask",
-    "RelativePath": "TodoTask",
+    "RelativePath": "Todo",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createTodoTaskDTO",
-        "Type": "Todo_api_backend.DTOs.TodoTask.CreateTodoTaskDTO",
+        "Name": "updateTodoTaskDTO",
+        "Type": "Todo_api_backend.DTOs.TodoTask.UpdateTodoDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "GetById",
-    "RelativePath": "TodoTask/{id}",
+    "RelativePath": "Todo/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -186,9 +197,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "DeleteTask",
-    "RelativePath": "TodoTask/{id}",
+    "RelativePath": "Todo/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

@@ -8,7 +8,7 @@ namespace Todo_api_backend.Interfaces.Services
     {
         public Task<CategoryResponseDTO?> GetOneByID(Guid id);
 
-        public Task<CategoryPageResponseDTO> GetAllAsync(PaginationParams pagination);
+        public Task<PaginatedResponse<CategoryResponseDTO>> GetAllAsync(PaginationParams pagination);
 
         public Task<CategoryResponseDTO?> GetByName(string name);
 

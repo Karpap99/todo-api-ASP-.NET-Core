@@ -6,14 +6,13 @@ namespace Todo_api_backend.Data
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
+        {}
 
         public DbSet<User> Users { get; set; } = null!;
-        public DbSet<TodoTask> TodoTasks { get; set; } = null!;
+        public DbSet<Todo> Todos { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
 
-        public DbSet<TodoTaskCategory> TodoTaskCategories { get; set; } = null!;
+        public DbSet<TodoCategory> TodoTaskCategories { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,24 +26,24 @@ namespace Todo_api_backend.Data
                 b.Property(u => u.PasswordHash).IsRequired();
             });
      
-            modelBuilder.Entity<TodoTask>(b =>
+            modelBuilder.Entity<Todo>(b =>
             {
                 b.HasKey(t => t.Id);
                 b.Property(t => t.Title).IsRequired();
-                b.HasOne(t => t.Author).WithMany(u => u.Tasks).HasForeignKey(t => t.AuthorId);
+                b.HasOne(t => t.Author).WithMany(u => u.Todos).HasForeignKey(t => t.AuthorId);
             });
 
             modelBuilder.Entity<Category>(b =>
             {
                 b.HasKey(c => c.Id);
-                b.Property(c => c.Name).IsRequired();
+                b.Property(c => c.Title).IsRequired();
             });
 
-            modelBuilder.Entity<TodoTaskCategory>(b =>
+            modelBuilder.Entity<TodoCategory>(b =>
             {
-                b.HasKey(tc => new { tc.TaskId, tc.CategoryId });
-                b.HasOne(tc => tc.Task).WithMany(t => t.TaskCategories).HasForeignKey(tc => tc.TaskId);
-                b.HasOne(tc => tc.Category).WithMany(c => c.TaskCategories).HasForeignKey(tc => tc.CategoryId);
+                b.HasKey(tc => new { tc.TodoId, tc.CategoryId });
+                b.HasOne(tc => tc.Todo).WithMany(t => t.TodoCategories).HasForeignKey(tc => tc.TodoId);
+                b.HasOne(tc => tc.Category).WithMany(c => c.TodoCategories).HasForeignKey(tc => tc.CategoryId);
             });
         }
     }
