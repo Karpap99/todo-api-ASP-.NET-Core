@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using Todo_api_backend.Config;
@@ -93,9 +94,10 @@ namespace Todo_api_backend.Services
         {
             var claims = new[]
             {
-                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             var key = new SymmetricSecurityKey(

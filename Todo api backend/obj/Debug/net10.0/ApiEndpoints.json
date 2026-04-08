@@ -126,5 +126,79 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "Method": "GetAll",
+    "RelativePath": "TodoTask",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "Method": "CreateTask",
+    "RelativePath": "TodoTask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createTodoTaskDTO",
+        "Type": "Todo_api_backend.DTOs.TodoTask.CreateTodoTaskDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "Method": "UpdateTask",
+    "RelativePath": "TodoTask",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createTodoTaskDTO",
+        "Type": "Todo_api_backend.DTOs.TodoTask.CreateTodoTaskDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "Method": "GetById",
+    "RelativePath": "TodoTask/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoTaskController",
+    "Method": "DeleteTask",
+    "RelativePath": "TodoTask/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
