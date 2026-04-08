@@ -1,4 +1,5 @@
 ﻿using Todo_api_backend.DTOs;
+using Todo_api_backend.DTOs.Category;
 using Todo_api_backend.DTOs.TodoDtos;
 using Todo_api_backend.Interfaces.Repositories;
 using Todo_api_backend.Interfaces.Services;
@@ -9,9 +10,13 @@ namespace Todo_api_backend.Services
     public class TodoService: ITodoService
     {
         private readonly ITodoRepository _repo;
-        public TodoService(ITodoRepository repo, IUserService userService)
+        private readonly ICategoryService _categoryService;
+        private readonly ITodoCategoryService _todoCategoryService;
+        public TodoService(ITodoRepository repo, ICategoryService categoryService, ITodoCategoryService todoCategoryService)
         {
             _repo = repo;
+            _categoryService = categoryService;
+            _todoCategoryService = todoCategoryService;
         }
 
         public async Task<TodoResponseDTO?> GetOneByID(Guid id, Guid userId) {
@@ -23,8 +28,12 @@ namespace Todo_api_backend.Services
 
 
         public async Task<List<TodoResponseDTO>> GetAllAsync(Guid userId) {
-            var todos = await _repo.GetAllAsync();
-            return todos.Select(todo => new TodoResponseDTO(todo)).ToList(); 
+            var todos = await _repo.GetByAuthorIdWithCategories(userId);
+            return todos.Select(
+                todo => new TodoResponseDTO(todo) 
+                {
+                    Categories = todo.TodoCategories.Select(tc => new CategoryResponseDTO(tc.Category)).ToList(),
+                }).ToList(); 
         }
 
 
@@ -69,6 +78,11 @@ namespace Todo_api_backend.Services
             };
 
             var result = await _repo.AddAsync(todo);
+
+            if(createTodoTaskDTO.Categories != null && createTodoTaskDTO.Categories.Count > 0) {
+                var validCategoryIds = await _categoryService.ValidateCategoryIdsAsync(createTodoTaskDTO.Categories);
+                await _todoCategoryService.AddManyAsync(validCategoryIds, result.Id);
+            }
 
             return new TodoResponseDTO(result);
         }

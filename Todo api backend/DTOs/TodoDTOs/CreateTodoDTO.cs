@@ -11,5 +11,7 @@ namespace Todo_api_backend.DTOs.TodoDtos
         [Required]
         [StringLength(500, MinimumLength = 1)]
         public string Description { get; set; }
+
+        public List<Guid> Categories { get; set; } = new List<Guid>();
     }
 }

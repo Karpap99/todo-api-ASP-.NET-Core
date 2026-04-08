@@ -11,7 +11,12 @@ namespace Todo_api_backend.Data.Repositories
 
         public async Task<Category?> GetByName(string name)
         {
-            return await base._db.Categories.Where(c => c.Title == name).FirstOrDefaultAsync();
+            return await _db.Categories.Where(c => c.Title == name).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Category>> GetByIds(List<Guid> categoryIds)
+        {
+            return await _db.Categories.Where(c => categoryIds.Contains(c.Id)).ToListAsync();
         }
 
     }

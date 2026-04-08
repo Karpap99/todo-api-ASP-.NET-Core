@@ -51,6 +51,7 @@ namespace Todo_api_backend.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             if (Guid.TryParse( userId?.Value, out Guid userGuid) == false) return BadRequest();
+
             var response = await _service.AddAsync(createTodoDTO, userGuid);
             return CreatedAtAction(null, new { response }); ;
         }

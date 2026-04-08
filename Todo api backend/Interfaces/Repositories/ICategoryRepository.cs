@@ -7,5 +7,7 @@ namespace Todo_api_backend.Interfaces.Repositories
     {
         public Task<Category?> GetByName(string name);
 
+        public Task<List<Category>> GetByIds(List<Guid> categoryIds);
+
     }
 }

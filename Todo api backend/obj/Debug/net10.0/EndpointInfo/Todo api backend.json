@@ -401,11 +401,11 @@
       },
       "CreateCategoryDTO": {
         "required": [
-          "name"
+          "title"
         ],
         "type": "object",
         "properties": {
-          "name": {
+          "title": {
             "maxLength": 100,
             "minLength": 3,
             "type": "string"
@@ -429,6 +429,14 @@
             "maxLength": 500,
             "minLength": 1,
             "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

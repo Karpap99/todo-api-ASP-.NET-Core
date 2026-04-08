@@ -46,7 +46,7 @@ namespace Todo_api_backend.Data.Repositories
 
         public async Task<T> AddAsync(T item)
         {
-            _db.Set<T>().Add(item);
+            await _db.Set<T>().AddAsync(item);
             await _db.SaveChangesAsync();
             return item;
         }

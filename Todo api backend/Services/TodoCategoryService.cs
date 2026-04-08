@@ -35,6 +35,12 @@ namespace Todo_api_backend.Services
             return new TodoCategoryResponseDTO(createdTodoCategory);
         }
 
+
+        public async Task AddManyAsync(List<Guid> categories, Guid todoId)
+        {
+            await _repo.AddManyAsync(categories, todoId);
+        }
+
         // No sense to update a relationship between a todo and a category, we will just delete the old one and create a new one. Realization just to omit an error
         public async Task<TodoCategoryResponseDTO> UpdateAsync(UpdateTodoCategoryDTO updateTodoCategoryDTO, Guid userId) 
         {

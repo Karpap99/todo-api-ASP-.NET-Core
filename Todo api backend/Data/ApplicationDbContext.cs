@@ -11,8 +11,7 @@ namespace Todo_api_backend.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Todo> Todos { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
-
-        public DbSet<TodoCategory> TodoTaskCategories { get; set; } = null!;
+        public DbSet<TodoCategory> TodoCategories { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,20 +29,25 @@ namespace Todo_api_backend.Data
             {
                 b.HasKey(t => t.Id);
                 b.Property(t => t.Title).IsRequired();
-                b.HasOne(t => t.Author).WithMany(u => u.Todos).HasForeignKey(t => t.AuthorId);
+                b.HasIndex(t => new { t.AuthorId, t.Title});
+                b.HasIndex(t => new { t.AuthorId, t.CreatedAt});
+                b.HasOne(t => t.Author).WithMany(u => u.Todos).HasForeignKey(t => t.AuthorId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Category>(b =>
             {
                 b.HasKey(c => c.Id);
+                b.HasIndex(c => c.Id);
+                b.HasIndex(c => c.Title).IsUnique();
                 b.Property(c => c.Title).IsRequired();
             });
 
             modelBuilder.Entity<TodoCategory>(b =>
             {
                 b.HasKey(tc => new { tc.TodoId, tc.CategoryId });
-                b.HasOne(tc => tc.Todo).WithMany(t => t.TodoCategories).HasForeignKey(tc => tc.TodoId);
-                b.HasOne(tc => tc.Category).WithMany(c => c.TodoCategories).HasForeignKey(tc => tc.CategoryId);
+                b.HasIndex(tc => new { tc.TodoId, tc.CategoryId }).IsUnique();
+                b.HasOne(tc => tc.Todo).WithMany(t => t.TodoCategories).HasForeignKey(tc => tc.TodoId).OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(tc => tc.Category).WithMany(c => c.TodoCategories).HasForeignKey(tc => tc.CategoryId).OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

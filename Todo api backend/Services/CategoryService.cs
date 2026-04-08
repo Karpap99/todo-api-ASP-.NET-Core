@@ -60,7 +60,7 @@ namespace Todo_api_backend.Services
 
         public async Task<CategoryResponseDTO> AddAsync(CreateCategoryDTO createCategoryDTO)
         {
-            var categoryDuplicate = await _db.GetByName(createCategoryDTO.Name);
+            var categoryDuplicate = await _db.GetByName(createCategoryDTO.Title);
 
             if (categoryDuplicate != null) { 
                 throw new Exception("Category with the same name already exists.");
@@ -68,8 +68,7 @@ namespace Todo_api_backend.Services
 
             var category = new Category
             {
-                Id = Guid.NewGuid(),
-                Title = createCategoryDTO.Name
+                Title = createCategoryDTO.Title
             };
 
             var result = await _db.AddAsync(category);
@@ -92,6 +91,14 @@ namespace Todo_api_backend.Services
             await _db.UpdateAsync(exists);
 
             return new CategoryResponseDTO(exists);
+        }
+
+
+        public async Task<List<Guid>> ValidateCategoryIdsAsync(List<Guid> categoryIds)
+        {
+            var validCategories = await _db.GetByIds(categoryIds);
+            var validCategoryIds = validCategories.Select(c => c.Id).ToList();
+            return validCategoryIds;
         }
 
         public Task DeleteAsync(Guid id)

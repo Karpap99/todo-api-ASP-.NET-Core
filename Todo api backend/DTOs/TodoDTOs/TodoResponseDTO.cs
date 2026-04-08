@@ -1,4 +1,5 @@
-﻿using Todo_api_backend.Models;
+﻿using Todo_api_backend.DTOs.Category;
+using Todo_api_backend.Models;
 
 namespace Todo_api_backend.DTOs.TodoDtos
 {
@@ -13,5 +14,7 @@ namespace Todo_api_backend.DTOs.TodoDtos
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
+
+        public List<CategoryResponseDTO> Categories { get; set; } = new List<CategoryResponseDTO>();
     }
 }
