@@ -304,6 +304,19 @@
         }
       }
     },
+    "/Todo/getall": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "operationId": "GetAllTodos",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/Todo/{id}": {
       "get": {
         "tags": [
@@ -329,6 +342,41 @@
       "delete": {
         "tags": [
           "Todo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/TodoCategory": {
+      "post": {
+        "tags": [
+          "TodoCategory"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/TodoCategory/{id}": {
+      "delete": {
+        "tags": [
+          "TodoCategory"
         ],
         "parameters": [
           {
@@ -491,6 +539,9 @@
     },
     {
       "name": "Todo"
+    },
+    {
+      "name": "TodoCategory"
     }
   ]
 }

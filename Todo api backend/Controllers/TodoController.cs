@@ -19,7 +19,7 @@ namespace Todo_api_backend.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int limit = 10)
+        public async Task<IActionResult> GetPaginated([FromQuery] int page = 1, [FromQuery] int limit = 10)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -29,6 +29,21 @@ namespace Todo_api_backend.Controllers
             var pagination = new PaginationParams { Page = page, Limit = limit };
 
             var response = await _service.GetPaginatedAsync(pagination, userGuid);
+
+            return Ok(new { response });
+        }
+
+
+        [Authorize]
+        [HttpGet("getall", Name = "GetAllTodos")]
+        public async Task<IActionResult> GetAll()
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (Guid.TryParse(userId?.Value, out Guid userGuid) == false)
+                return BadRequest();
+
+            var response = await _service.GetAllAsync(userGuid);
 
             return Ok(new { response });
         }

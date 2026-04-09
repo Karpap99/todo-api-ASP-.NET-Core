@@ -20,10 +20,13 @@ namespace Todo_api_backend.Services
         }
 
         public async Task<TodoResponseDTO?> GetOneByID(Guid id, Guid userId) {
-            var todo = await _repo.GetOneByID(id);
+            var todo = await _repo.GetOneByIdWithCategories(id);
             if (todo == null) return null;
 
-            return new TodoResponseDTO(todo);
+            return new TodoResponseDTO(todo)
+            {
+                Categories = todo.TodoCategories.Select(tc => new CategoryResponseDTO(tc.Category)).ToList(),
+            };
         }
 
 
@@ -38,26 +41,18 @@ namespace Todo_api_backend.Services
 
 
         public async Task<PaginatedResponse<TodoResponseDTO>> GetPaginatedAsync(PaginationParams pagination, Guid userId) {
-            var total = await _repo.GetTotalCountAsync();
-            var pages = (int)Math.Ceiling((double)total / pagination.Limit);
+            var(todos, total) = await _repo.GetByAuthorIdWithCategoriesPaginated(pagination, userId);
 
-            if (pages > 0 && pagination.Page <= pages) {
-                var todos = await _repo.GetPaginatedAsync(pagination, x => x.Id);
-                return new PaginatedResponse<TodoResponseDTO>
-                {
-                    Items = todos.Select(todo => new TodoResponseDTO(todo)).ToList(),
-                    TotalItems = total,
-                    TotalPages = pages
-                };
-            }
 
             return new PaginatedResponse<TodoResponseDTO>
             {
-                Items = new List<TodoResponseDTO>(),
-                TotalItems = total,
-                TotalPages = pages
+               Items = todos.Select(todo => new TodoResponseDTO(todo)
+               {
+                  Categories = todo.TodoCategories.Select(tc => new CategoryResponseDTO(tc.Category)).ToList(),
+               }).ToList(),
+               TotalItems = total,
+               TotalPages = (int)Math.Ceiling((double)total / pagination.Limit)
             };
-
         }
 
         public async Task<TodoResponseDTO?> GetByNameAsync(string name, Guid userGuid) {

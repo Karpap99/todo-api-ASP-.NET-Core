@@ -129,7 +129,7 @@
   },
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
-    "Method": "GetAll",
+    "Method": "GetPaginated",
     "RelativePath": "Todo",
     "HttpMethod": "GET",
     "IsController": true,
@@ -200,6 +200,43 @@
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "DeleteTask",
     "RelativePath": "Todo/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoController",
+    "Method": "GetAll",
+    "RelativePath": "Todo/getall",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [],
+    "EndpointName": "GetAllTodos"
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoCategoryController",
+    "Method": "CreateTodoCategory",
+    "RelativePath": "TodoCategory",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Todo_api_backend.Controllers.TodoCategoryController",
+    "Method": "DeleteTodoCategory",
+    "RelativePath": "TodoCategory/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
