@@ -5,7 +5,7 @@ using System.Security.Claims;
 namespace Todo_api_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("todocategory")]
     public class TodoCategoryController : Controller
     {
         [Authorize]

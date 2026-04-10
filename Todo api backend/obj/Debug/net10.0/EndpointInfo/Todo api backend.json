@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/Auth/login": {
+    "/auth/login": {
       "post": {
         "tags": [
           "Auth"
@@ -36,7 +36,19 @@
         }
       }
     },
-    "/Auth/register": {
+    "/auth/validate": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/register": {
       "post": {
         "tags": [
           "Auth"
@@ -67,7 +79,7 @@
         }
       }
     },
-    "/Auth/logout": {
+    "/auth/logout": {
       "post": {
         "tags": [
           "Auth"
@@ -79,7 +91,7 @@
         }
       }
     },
-    "/Category": {
+    "/category": {
       "get": {
         "tags": [
           "Category"
@@ -169,7 +181,7 @@
         }
       }
     },
-    "/Category/{id}": {
+    "/category/{id}": {
       "get": {
         "tags": [
           "Category"
@@ -214,7 +226,7 @@
         }
       }
     },
-    "/Todo": {
+    "/todo": {
       "get": {
         "tags": [
           "Todo"
@@ -304,7 +316,7 @@
         }
       }
     },
-    "/Todo/getall": {
+    "/todo/getall": {
       "get": {
         "tags": [
           "Todo"
@@ -317,7 +329,7 @@
         }
       }
     },
-    "/Todo/{id}": {
+    "/todo/{id}": {
       "get": {
         "tags": [
           "Todo"
@@ -361,7 +373,7 @@
         }
       }
     },
-    "/TodoCategory": {
+    "/todocategory": {
       "post": {
         "tags": [
           "TodoCategory"
@@ -373,7 +385,7 @@
         }
       }
     },
-    "/TodoCategory/{id}": {
+    "/todocategory/{id}": {
       "delete": {
         "tags": [
           "TodoCategory"

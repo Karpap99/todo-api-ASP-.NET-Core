@@ -9,5 +9,7 @@ namespace Todo_api_backend.Interfaces.Repositories
 
         public Task<List<Category>> GetByIds(List<Guid> categoryIds);
 
+        public Task<(List<Category>, int total)> GetPartialSearchByTitlePaginated(string title, PaginationParams pagination, Guid authorId);
+
     }
 }

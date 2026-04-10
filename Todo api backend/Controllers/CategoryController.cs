@@ -6,7 +6,7 @@ using Todo_api_backend.Interfaces.Services;
 namespace Todo_api_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("category")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _service;

@@ -8,7 +8,7 @@ using Todo_api_backend.Interfaces.Services;
 namespace Todo_api_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("todo")]
     public class TodoController : Controller
     {
         private readonly ITodoService _service;

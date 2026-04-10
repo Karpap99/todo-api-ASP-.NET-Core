@@ -2,7 +2,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.AuthController",
     "Method": "Login",
-    "RelativePath": "Auth/login",
+    "RelativePath": "auth/login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,7 +18,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.AuthController",
     "Method": "Logout",
-    "RelativePath": "Auth/logout",
+    "RelativePath": "auth/logout",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -28,7 +28,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.AuthController",
     "Method": "Register",
-    "RelativePath": "Auth/register",
+    "RelativePath": "auth/register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -42,9 +42,19 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Todo_api_backend.Controllers.AuthController",
+    "Method": "Validate",
+    "RelativePath": "auth/validate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Todo_api_backend.Controllers.CategoryController",
     "Method": "Get",
-    "RelativePath": "Category",
+    "RelativePath": "category",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -65,7 +75,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.CategoryController",
     "Method": "Add",
-    "RelativePath": "Category",
+    "RelativePath": "category",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -81,7 +91,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.CategoryController",
     "Method": "Update",
-    "RelativePath": "Category",
+    "RelativePath": "category",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -97,7 +107,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.CategoryController",
     "Method": "GetById",
-    "RelativePath": "Category/{id}",
+    "RelativePath": "category/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -114,7 +124,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.CategoryController",
     "Method": "Delete",
-    "RelativePath": "Category/{id}",
+    "RelativePath": "category/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -130,7 +140,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "GetPaginated",
-    "RelativePath": "Todo",
+    "RelativePath": "todo",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -151,7 +161,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "CreateTask",
-    "RelativePath": "Todo",
+    "RelativePath": "todo",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -167,7 +177,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "UpdateTask",
-    "RelativePath": "Todo",
+    "RelativePath": "todo",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -183,7 +193,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "GetById",
-    "RelativePath": "Todo/{id}",
+    "RelativePath": "todo/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -199,7 +209,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "DeleteTask",
-    "RelativePath": "Todo/{id}",
+    "RelativePath": "todo/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -215,7 +225,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
     "Method": "GetAll",
-    "RelativePath": "Todo/getall",
+    "RelativePath": "todo/getall",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -226,7 +236,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoCategoryController",
     "Method": "CreateTodoCategory",
-    "RelativePath": "TodoCategory",
+    "RelativePath": "todocategory",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -236,7 +246,7 @@
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoCategoryController",
     "Method": "DeleteTodoCategory",
-    "RelativePath": "TodoCategory/{id}",
+    "RelativePath": "todocategory/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

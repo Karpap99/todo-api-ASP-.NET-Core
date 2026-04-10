@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Todo_api_backend.DTOs.Auth;
 using Todo_api_backend.Interfaces.Services;
 
 namespace Todo_api_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("auth")]
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
@@ -27,6 +29,25 @@ namespace Todo_api_backend.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpPost("validate")]
+        public async Task<IActionResult> Validate()
+        {
+            try
+            {
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (Guid.TryParse(userId?.Value, out Guid userGuid) == false) return BadRequest();
+
+                var response = await _authService.ValidateAsync(userGuid);
+                return Ok(new { response });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AuthRegisterDTO dto)

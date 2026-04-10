@@ -62,6 +62,19 @@ namespace Todo_api_backend.Services
             return new TodoResponseDTO(todo);
         }
 
+
+        public async Task<PaginatedResponse<TodoResponseDTO>> GetPartialSearchByTitleAsync(string title, PaginationParams pagination, Guid userId) {
+            var (todos, total) = await _repo.GetPartialSearchByTitlePaginated(title, pagination, userId);
+            return new PaginatedResponse<TodoResponseDTO>
+            {
+                Items = todos.Select(todo => new TodoResponseDTO(todo)
+                {
+                    Categories = todo.TodoCategories.Select(tc => new CategoryResponseDTO(tc.Category)).ToList(),
+                }).ToList(),
+                TotalItems = total,
+                TotalPages = (int)Math.Ceiling((double)total / pagination.Limit)
+            };
+        }
         public async Task<TodoResponseDTO?> AddAsync(CreateTodoDTO createTodoTaskDTO, Guid userId) {
 
             var todo = new Todo

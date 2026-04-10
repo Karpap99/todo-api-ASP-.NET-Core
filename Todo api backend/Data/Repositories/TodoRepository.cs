@@ -40,5 +40,18 @@ namespace Todo_api_backend.Data.Repositories
                             .ThenInclude(tc => tc.Category)
                             .SingleOrDefaultAsync();
         }
+
+
+        public async Task<(List<Todo>, int total)> GetPartialSearchByTitlePaginated(string title, PaginationParams pagination, Guid authorId)
+        {
+            var query = _db.Todos.Where(t => t.AuthorId == authorId && t.Title.Contains(title));
+            var total = await query.CountAsync();
+            var todos = await query.Include(t => t.TodoCategories)
+                            .ThenInclude(tc => tc.Category)
+                            .Skip((pagination.Page - 1) * pagination.Limit)
+                            .Take(pagination.Limit).ToListAsync();
+            return (todos, total);
+        }
+
     }
 }

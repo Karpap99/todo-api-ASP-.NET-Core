@@ -76,6 +76,19 @@ namespace Todo_api_backend.Services
             };
         }
 
+        public async Task<AuthResponseDTO?> ValidateAsync(Guid userId)
+        {
+            var user = await _repository.GetOneByID(userId);
+            if (user == null) throw new InvalidOperationException("User didnt exists");
+            var token = await GetToken(user);
+            var userResponse = new UserResponseDTO(user);
+            return new AuthResponseDTO
+            {
+                Token = token,
+                User = userResponse
+            };
+        }
+
         public async Task<string> GetToken(User user)
         {
             var claims = new[]

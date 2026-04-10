@@ -19,5 +19,16 @@ namespace Todo_api_backend.Data.Repositories
             return await _db.Categories.Where(c => categoryIds.Contains(c.Id)).ToListAsync();
         }
 
+        public async Task<(List<Category>, int total)> GetPartialSearchByTitlePaginated(string title, PaginationParams pagination, Guid authorId)
+        {
+            var query = _db.Categories.Where(c =>  c.Title.Contains(title));
+            var total = await query.CountAsync();
+            var categories = await query
+                            .Skip((pagination.Page - 1) * pagination.Limit)
+                            .Take(pagination.Limit).ToListAsync();      
+
+            return (categories, total);
+        }
+
     }
 }

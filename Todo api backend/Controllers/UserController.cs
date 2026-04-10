@@ -3,7 +3,7 @@
 namespace Todo_api_backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("user")]
     public class UserController : Controller
     {
     }

@@ -12,6 +12,7 @@ using Todo_api_backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -78,6 +79,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseCors(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseHttpsRedirection();
 
