@@ -6,23 +6,34 @@ using Todo_api_backend.Models;
 
 namespace Todo_api_backend.Data.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+    public class BaseProtectedRepository<T> : IBaseProtectedRepository<T> where T : BaseUserEntity
     {
         protected readonly ApplicationDbContext _db;
-        public BaseRepository(ApplicationDbContext db)
+
+
+
+        public BaseProtectedRepository(ApplicationDbContext db)
         {
             _db = db;
         }
+         
+        public async Task<T?> GetOneByID(Guid id, Guid userId)
+        {
+            return await _db.Set<T>().FirstAsync(x => x.Id == id && x.AuthorId == userId);
+        }
 
-        public async Task<T?> GetOneByID(Guid id) => await _db.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-        public async Task<List<T>> GetAllAsync()
+
+
+        public async Task<List<T>> GetAllAsync(Guid userId)
         {
             return await _db.Set<T>().ToListAsync();
         }
 
         public async Task<List<T>> GetPaginatedAsync(
             PaginationParams pagination,
-            Expression<Func<T, object>> orderBy)
+            Expression<Func<T, object>> orderBy,
+            Guid userId
+           )
         {
             var position = (pagination.Page - 1) * pagination.Limit;
 
@@ -33,7 +44,7 @@ namespace Todo_api_backend.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<int> GetTotalCountAsync()
+        public async Task<int> GetTotalCountAsync(Guid userId)
         {
             return await _db.Set<T>().CountAsync();
         }
@@ -45,22 +56,24 @@ namespace Todo_api_backend.Data.Repositories
             return item;
         }
 
-        public async Task<T> UpdateAsync(T item)
+        public async Task<T> UpdateAsync(T item, Guid userId)
         {
             _db.Set<T>().Update(item);
             await _db.SaveChangesAsync();
             return item;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id, Guid userId)
         {
-            var item = await _db.Set<T>().FindAsync(id);
+            var entity = await _db.Set<T>()
+                .FirstOrDefaultAsync(x => x.Id == id && x.AuthorId == userId);
 
-            if (item != null)
-            {
-                _db.Set<T>().Remove(item);
-                await _db.SaveChangesAsync();
-            }
+            if (entity == null) return false;
+
+            _db.Set<T>().Remove(entity);
+            await _db.SaveChangesAsync();
+
+            return true;
         }
     }
 }

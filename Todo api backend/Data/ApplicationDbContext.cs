@@ -13,6 +13,45 @@ namespace Todo_api_backend.Data
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<TodoCategory> TodoCategories { get; set; } = null!;
 
+        public override int SaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    var now = DateTimeOffset.UtcNow;
+                    entry.Entity.CreatedAt = now;
+                    entry.Entity.UpdatedAt = now;
+                }
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
+                }
+            }
+
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    var now = DateTimeOffset.UtcNow;
+                    entry.Entity.CreatedAt = now;
+                    entry.Entity.UpdatedAt = now;
+                }
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,9 +76,9 @@ namespace Todo_api_backend.Data
             modelBuilder.Entity<Category>(b =>
             {
                 b.HasKey(c => c.Id);
-                b.HasIndex(c => c.Id);
-                b.HasIndex(c => c.Title).IsUnique();
-                b.Property(c => c.Title).IsRequired();
+                b.HasIndex(c => new { c.AuthorId, c.Title }).IsUnique();
+                b.HasOne(c => c.Author).WithMany(c => c.Categories).HasForeignKey(c => c.AuthorId).OnDelete(DeleteBehavior.Cascade);
+                b.Property(c => c.Title).IsRequired();   
             });
 
             modelBuilder.Entity<TodoCategory>(b =>

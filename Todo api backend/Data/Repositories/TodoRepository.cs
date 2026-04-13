@@ -25,7 +25,9 @@ namespace Todo_api_backend.Data.Repositories
         {
             var query = _db.Todos.Where(t => t.AuthorId == authorId);
             var total = await query.CountAsync();
-            var todos = await query.Include(t => t.TodoCategories)
+            var todos = await query
+                            .OrderByDescending(x => x.CreatedAt)
+                            .Include(t => t.TodoCategories)
                             .ThenInclude(tc => tc.Category)
                             .Skip((pagination.Page - 1) * pagination.Limit)
                             .Take(pagination.Limit).ToListAsync();
@@ -52,6 +54,9 @@ namespace Todo_api_backend.Data.Repositories
                             .Take(pagination.Limit).ToListAsync();
             return (todos, total);
         }
+
+        public async Task<Todo?> GetOneByIdAndUser(Guid id, Guid userId) => await _db.Todos.Where(t => t.Id == id && t.AuthorId == userId).FirstAsync();
+        
 
     }
 }

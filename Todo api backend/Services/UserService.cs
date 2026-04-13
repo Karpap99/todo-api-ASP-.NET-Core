@@ -18,6 +18,9 @@ namespace Todo_api_backend.Services
         public async Task<UserResponseDTO?> GetOneByID(Guid id)
         {
             var user = await _repo.GetOneByID(id);
+                
+            if (user == null) throw new KeyNotFoundException(nameof(user));
+
             return new UserResponseDTO(user);
         }
 
@@ -28,6 +31,9 @@ namespace Todo_api_backend.Services
 
         public async Task<UserResponseDTO?> GetByEmailAsync(string email) {
             var user = await _repo.GetByEmailAsync(email);
+
+            if (user == null) throw new KeyNotFoundException(nameof(user));
+
             return new UserResponseDTO(user);
         }
 
@@ -63,8 +69,9 @@ namespace Todo_api_backend.Services
         public async Task<UserResponseDTO> UpdateAsync(UpdateUserDTO updateUserDTO) {
             var user = await _repo.GetByEmailAsync(updateUserDTO.Email);
 
-            return new UserResponseDTO(user);
+            if (user == null) throw new KeyNotFoundException(nameof(user));
 
+            return new UserResponseDTO(user);
         }
 
         public async Task DeleteAsync(Guid id) => await _repo.DeleteAsync(id);

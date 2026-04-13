@@ -11,5 +11,7 @@ namespace Todo_api_backend.Interfaces.Repositories
         public Task<Todo?> GetOneByIdWithCategories(Guid id);
         public Task<(List<Todo>, int total)> GetPartialSearchByTitlePaginated(string title, PaginationParams pagination, Guid authorId);
 
+        public Task<Todo?> GetOneByIdAndUser(Guid id, Guid userId);
+
     }
 }

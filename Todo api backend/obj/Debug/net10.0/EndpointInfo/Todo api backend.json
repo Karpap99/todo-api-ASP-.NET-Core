@@ -114,6 +114,13 @@
               "format": "int32",
               "default": 10
             }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -285,35 +292,6 @@
             "description": "OK"
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Todo"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/todo/getall": {
@@ -345,6 +323,46 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Todo"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTodoDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTodoDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTodoDTO"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -475,7 +493,6 @@
       },
       "CreateTodoDTO": {
         "required": [
-          "description",
           "title"
         ],
         "type": "object",
@@ -485,10 +502,10 @@
             "minLength": 1,
             "type": "string"
           },
-          "description": {
-            "maxLength": 500,
-            "minLength": 1,
-            "type": "string"
+          "deadline": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "categories": {
             "type": "array",
@@ -516,11 +533,6 @@
         "additionalProperties": false
       },
       "UpdateTodoDTO": {
-        "required": [
-          "description",
-          "id",
-          "title"
-        ],
         "type": "object",
         "properties": {
           "id": {
@@ -530,12 +542,25 @@
           "title": {
             "maxLength": 100,
             "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
-          "description": {
-            "maxLength": 500,
-            "minLength": 1,
-            "type": "string"
+          "deadline": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCompleted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

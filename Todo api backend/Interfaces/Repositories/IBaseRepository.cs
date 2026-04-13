@@ -5,7 +5,7 @@ namespace Todo_api_backend.Interfaces.Repositories
 {
     public interface IBaseRepository<T>
     {
-        public Task<T> GetOneByID(Guid id);
+        public Task<T?> GetOneByID(Guid id);
 
         public Task<List<T>> GetAllAsync();
 

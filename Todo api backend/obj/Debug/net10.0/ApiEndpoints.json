@@ -68,6 +68,11 @@
         "Name": "limit",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -176,15 +181,15 @@
   },
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
-    "Method": "UpdateTask",
-    "RelativePath": "todo",
-    "HttpMethod": "PUT",
+    "Method": "GetById",
+    "RelativePath": "todo/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "updateTodoDTO",
-        "Type": "Todo_api_backend.DTOs.TodoDtos.UpdateTodoDTO",
+        "Name": "id",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -192,12 +197,17 @@
   },
   {
     "ContainingType": "Todo_api_backend.Controllers.TodoController",
-    "Method": "GetById",
+    "Method": "UpdateTask",
     "RelativePath": "todo/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "updateTodoDTO",
+        "Type": "Todo_api_backend.DTOs.TodoDtos.UpdateTodoDTO",
+        "IsRequired": true
+      },
       {
         "Name": "id",
         "Type": "System.Guid",

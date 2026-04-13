@@ -5,9 +5,9 @@ namespace Todo_api_backend.Interfaces.Services
 {
     public interface IAuthService
     {
-        public Task<AuthResponseDTO?> LoginAsync(AuthLoginDTO userDto);
-        public Task<AuthResponseDTO?> RegisterAsync(AuthRegisterDTO userDto);
-        public Task<AuthResponseDTO?> ValidateAsync(Guid userId);
+        public Task<AuthResponseDTO> LoginAsync(AuthLoginDTO userDto);
+        public Task<AuthResponseDTO> RegisterAsync(AuthRegisterDTO userDto);
+        public Task<AuthResponseDTO> ValidateAsync(Guid userId);
         public Task<string> GetToken(User user); 
 
     }

@@ -26,7 +26,7 @@ namespace Todo_api_backend.Services
             _jwtConfig = jwtConfig.Value;
         }
 
-        public async Task<AuthResponseDTO?> LoginAsync(AuthLoginDTO user)
+        public async Task<AuthResponseDTO> LoginAsync(AuthLoginDTO user)
         {
 
             var _user = await _repository.GetByEmailAsync(user.Email);
@@ -57,6 +57,7 @@ namespace Todo_api_backend.Services
         public async Task<AuthResponseDTO> RegisterAsync(AuthRegisterDTO dto)
         {
             var existing = await _repository.GetByEmailAsync(dto.Email);
+
             if (existing != null) throw new InvalidOperationException("User already exists");
 
             var user = new User { Email = dto.Email, };
@@ -76,7 +77,7 @@ namespace Todo_api_backend.Services
             };
         }
 
-        public async Task<AuthResponseDTO?> ValidateAsync(Guid userId)
+        public async Task<AuthResponseDTO> ValidateAsync(Guid userId)
         {
             var user = await _repository.GetOneByID(userId);
             if (user == null) throw new InvalidOperationException("User didnt exists");

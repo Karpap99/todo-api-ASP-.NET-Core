@@ -6,6 +6,9 @@
 
         public string PasswordHash { get; set; } = null!;
 
+
+        public ICollection<Category> Categories { get; set; } = new List<Category>();
+
         public ICollection<Todo> Todos { get; set; } = new List<Todo>();
     }
 }
