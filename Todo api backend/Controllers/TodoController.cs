@@ -19,14 +19,16 @@ namespace Todo_api_backend.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetPaginated([FromQuery] int page = 1, [FromQuery] int limit = 10)
+        public async Task<IActionResult> GetPaginated([FromQuery] int page = 1, [FromQuery] int limit = 10, [FromQuery] string? query = null, [FromQuery] Guid? categoryId = null)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
             if (Guid.TryParse( userId?.Value, out Guid userGuid) == false) 
                 return BadRequest();
 
-            var pagination = new PaginationParams { Page = page, Limit = limit };
+  
+
+            var pagination = new PaginationParams { Page = page, Limit = limit, Query = query, CategoryId = categoryId };
 
             try
             {

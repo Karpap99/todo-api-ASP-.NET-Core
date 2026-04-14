@@ -23,7 +23,23 @@ namespace Todo_api_backend.Data.Repositories
 
         public async Task<(List<Todo>, int total)> GetByAuthorIdWithCategoriesPaginated(PaginationParams pagination, Guid authorId)
         {
-            var query = _db.Todos.Where(t => t.AuthorId == authorId);
+
+            var query = _db.Todos.AsQueryable();
+
+            query = query.Where(t => t.AuthorId == authorId);
+
+            if (!string.IsNullOrWhiteSpace(pagination.Query))
+            {
+                query = query.Where(t =>
+                    t.Title.Contains(pagination.Query));
+            }
+
+            if (pagination.CategoryId != null)
+            {
+                query = query.Where(t =>
+                    t.TodoCategories.Any(tc => tc.CategoryId == pagination.CategoryId));
+            }
+
             var total = await query.CountAsync();
             var todos = await query
                             .OrderByDescending(x => x.CreatedAt)

@@ -27,8 +27,8 @@ namespace Todo_api_backend.Controllers
             if (Guid.TryParse(userId?.Value, out Guid userGuid) == false)
                 return BadRequest();
 
-            var list = await _service.GetPaginatedAsync(new PaginationParams { Page = page, Limit = limit }, userGuid);
-            return Ok(list);
+            var response = await _service.GetPaginatedAsync(new PaginationParams { Page = page, Limit = limit }, userGuid);
+            return Ok(new { response });
         }
 
 
